@@ -1,0 +1,167 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<IdentityUser> signInManager;
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Hospital_Management_System</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Hospital_Management_System.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow ">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Hospital_Management_System</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                    @if (signInManager.IsSignedIn(User))
+                        {
+                        <form method="post" asp-action="logout" asp-controller="Admin">
+                            <button type="submit" class="nav-link btn btn-link ml-auto" style="width:auto">
+                                Logout @User.Identity.Name
+                            </button>
+                        </form>
+                        }
+                    else
+                    {
+                    <li class="nav-item ml-auto" >
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Register">Register</a>
+                    </li>
+
+                    <li class="nav-item ml-auto" >
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="login">Login</a>
+                    </li>
+
+                    }
+                      
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        </header>
+@if (signInManager.IsSignedIn(User))
+    {
+        <div class="container-fluid mb-3">
+            <div class="row flex-nowrap">
+                <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+                    <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                        <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                            <span class="fs-5 d-none d-sm-inline">Menu</span>
+                        </a>
+                        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link align-middle px-0">
+                                    <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#submenu1" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
+                                    <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline">Patients Listing</span> </a>
+@*                                <ul class="collapse show nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
+                                    <li class="w-100">
+                                        <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 1 </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 2 </a>
+                                    </li>
+                                </ul>*@
+                            </li>
+                            <li>
+                                <a  class="nav-link px-0 align-middle" asp-controller="Doctor" asp-action="Index">
+                                             Doctors Listing</a>
+                            </li>
+                            <li>
+                                <a  data-bs-toggle="collapse" class="nav-link px-0 align-middle " >
+                                    <i class="fs-4 bi-bootstrap"></i> <span class="ms-1 d-none d-sm-inline">Room Types List</span></a>
+@*                                <ul class="collapse nav flex-column ms-1" id="submenu2" data-bs-parent="#menu">
+                                    <li class="w-100">
+                                        <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 1</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 2</a>
+                                    </li>
+                                </ul>*@
+                            </li>
+                            <li>
+                                <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
+                                    <i class="fs-4 bi-grid"></i> <span class="ms-1 d-none d-sm-inline">Rooms List</span> </a>
+@*                                <ul class="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
+                                    <li class="w-100">
+                                        <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 1</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 2</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 3</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 4</a>
+                                    </li>
+                                </ul>*@
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link px-0 align-middle">
+                                    <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Manage Roles</span> </a>
+                            </li>
+                        </ul>
+                        <hr>
+@*                        <div class="dropdown pb-4">
+                            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30" class="rounded-circle">
+                                <span class="d-none d-sm-inline mx-1">loser</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                                <li><a class="dropdown-item" href="#">New project...</a></li>
+                                <li><a class="dropdown-item" href="#">Settings</a></li>
+                                <li><a class="dropdown-item" href="#">Profile</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="#">Sign out</a></li>
+                            </ul>
+                        </div>*@
+                    </div>
+                </div>
+
+
+                <div class="col py-3">
+                    <div class="container">
+                        <main role="main" class="pb-3">
+                            @RenderBody()
+                        </main>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else{
+      <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+}
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2022 - Hospital_Management_System - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
