@@ -45,9 +45,69 @@ namespace Hospital_Management_System.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Specialization")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("DoctorId");
 
                     b.ToTable("Doctors");
+                });
+
+            modelBuilder.Entity("Hospital_Management_System.Models.Rooms", b =>
+                {
+                    b.Property<int>("RoomId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoomId"), 1L, 1);
+
+                    b.Property<int>("RoomCapacity")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("RoomDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RoomName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RoomTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RoomTypeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RoomId");
+
+                    b.HasIndex("RoomTypeId");
+
+                    b.ToTable("Rooms");
+                });
+
+            modelBuilder.Entity("Hospital_Management_System.Models.RoomType", b =>
+                {
+                    b.Property<int>("RoomTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoomTypeId"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("RoomTypeDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RoomTypeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RoomTypeId");
+
+                    b.ToTable("RoomTypes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -248,6 +308,17 @@ namespace Hospital_Management_System.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Hospital_Management_System.Models.Rooms", b =>
+                {
+                    b.HasOne("Hospital_Management_System.Models.RoomType", "RoomType")
+                        .WithMany("Room")
+                        .HasForeignKey("RoomTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RoomType");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -297,6 +368,11 @@ namespace Hospital_Management_System.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Hospital_Management_System.Models.RoomType", b =>
+                {
+                    b.Navigation("Room");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,9 +1,8 @@
-﻿    @model PaginatedList<Hospital_Management_System.Models.Doctor>;
-    @{
+﻿@model PaginatedList<Hospital_Management_System.Models.Rooms>;
+@{
         ViewData["Title"] = "Index";
     }
-    <h1>Doctors</h1>
-
+<h1>Rooms</h1>
     <a class="btn btn-primary" asp-action="Create">Create New</a>
     <div class="d-flex flex-row-reverse">
     <form asp-action="Index" method="get"  >
@@ -17,59 +16,56 @@
     </form>
     </div>
 
-    <table class="table">
-        <thead>
+<table class="table">
+    <thead>
             <tr>
                 <th>
-                    DoctorId
+                    RoomId
                 </th>
                 <th>
-                    <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]"> Name</a>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]"> RoomName</a>
                 </th>
-                <th>                                      
-                    Email
-                </th>
-
-                <th>                                      
-                    Specialization
-                </th>
-
                 <th>
-                    <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]"> CreatedDate </a>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]"> RoomTypeName</a>
                 </th>
+                <th>                                      
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]"> RoomCapacity</a>
+                </th>
+                <th>                                      
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]"> RoomDate</a>                </th>
 
-                <th></th>
             </tr>
-        </thead>
+    </thead>
         <tbody>
     @foreach (var item in Model) {
             <tr>
                 <th>
-                    @Html.DisplayFor(modelItem => item.DoctorId)
+                    @Html.DisplayFor(modelItem => item.RoomId)
                 </th>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    @Html.DisplayFor(modelItem => item.RoomName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Email)
+                    @Html.DisplayFor(modelItem => item.RoomTypeName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Specialization)
+                    @Html.DisplayFor(modelItem => item.RoomCapacity)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                    @Html.DisplayFor(modelItem => item.RoomDate)
                 </td>
 
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.DoctorId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.DoctorId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.DoctorId">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.RoomId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.RoomId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.RoomId">Delete</a>
                 </td>
             </tr>
     }
         </tbody>
     </table>
-    @{
+
+@{
     var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
 }

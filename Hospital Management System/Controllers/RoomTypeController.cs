@@ -8,30 +8,29 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Hospital_Management_System.Controllers
 {
-    [Authorize(Roles ="Admin")]
-    public class DoctorController : Controller
+    [Authorize]
+    public class RoomTypeController : Controller
     {
-        private readonly IDoctorServices _doctorServices;
+        private readonly IRoomTypeServices _roomTypeServices;
         private readonly ApplicationDbContext _context;
-       
-        public DoctorController(IDoctorServices doctorServices, ApplicationDbContext context)
+        public RoomTypeController(IRoomTypeServices roomTypeServices, ApplicationDbContext context)
         {
-            _doctorServices = doctorServices;
-            _context = context;
+            _roomTypeServices = roomTypeServices;
+            _context = context; 
         }
         public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter, int? pageNumber)
         {
-            var doctor=from s in _context.Doctors select s;
+            var roomType = from s in _context.RoomTypes select s;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
             ViewData["CurrentFilter"] = searchString;
             ViewData["CurrentSort"] = sortOrder;
+
             if (!String.IsNullOrEmpty(searchString))
             {
-                doctor = doctor.Where(s => s.Name.Contains(searchString)
-                                       || s.Email.Contains(searchString));
-            }
+                roomType = roomType.Where(s => s.RoomTypeName.Contains(searchString));
 
+            }
             if (searchString != null)
             {
                 pageNumber = 1;
@@ -44,56 +43,57 @@ namespace Hospital_Management_System.Controllers
             switch (sortOrder)
             {
                 case "name_desc":
-                    doctor = doctor.OrderByDescending(s => s.Name);
+                    roomType = roomType.OrderByDescending(s => s.RoomTypeName);
                     break;
                 case "Date":
-                    doctor = doctor.OrderBy(s => s.CreatedDate);
+                    roomType = roomType.OrderBy(s => s.RoomTypeDateTime);
                     break;
                 case "date_desc":
-                    doctor = doctor.OrderByDescending(s => s.CreatedDate);
+                    roomType = roomType.OrderByDescending(s => s.RoomTypeDateTime);
                     break;
                 default:
-                    doctor = doctor.OrderBy(s => s.CreatedDate);
+                    roomType = roomType.OrderBy(s => s.RoomTypeDateTime);
                     break;
             }
             int pageSize = 3;
-            return View(await PaginatedList<Doctor>.CreateAsync(doctor.AsNoTracking(),pageNumber ?? 1,pageSize) );
-        } 
+            return View(await PaginatedList<RoomType>.CreateAsync(roomType.AsNoTracking(), pageNumber ?? 1, pageSize));
+        }
         [HttpGet]
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
             return View();
-        }
 
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(DoctorViewModel doctor)
+        public async Task<IActionResult> Create(RoomTypeViewModel roomType)
         {
             if (ModelState.IsValid)
             {
-                await _doctorServices.AddAsync(doctor);
+                await _roomTypeServices.AddAsync(roomType);
                 return RedirectToAction("Index");
             }
-            return View(doctor);
+            return View(roomType);
         }
+
         public async Task<IActionResult> Edit(int? id)
         {
-            if(id == null)
+            if (id == null)
             {
                 return NotFound();
             }
-            var doctor = await _doctorServices.GetByIdAsync(id.GetValueOrDefault());
-            if(doctor == null)
+            var roomType = await _roomTypeServices.GetByIdAsync(id.GetValueOrDefault());
+            if (roomType == null)
             {
                 return NotFound();
             }
-            return View(doctor);
+            return View(roomType);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id,DoctorViewModel doctor)
+        public async Task<IActionResult> Edit(int id, RoomTypeViewModel roomType)
         {
-            if (id != doctor.DoctorId)
+            if (id != roomType.RoomTypeId)
             {
                 return NotFound();
             }
@@ -101,11 +101,11 @@ namespace Hospital_Management_System.Controllers
             {
                 try
                 {
-                    await _doctorServices.UpdateAsync(doctor);
+                    await _roomTypeServices.UpdateAsync(roomType);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (await _doctorServices.GetByIdAsync(doctor.DoctorId) == null)
+                    if (await _roomTypeServices.GetByIdAsync(roomType.RoomTypeId) == null)
                     {
                         return NotFound();
                     }
@@ -116,7 +116,7 @@ namespace Hospital_Management_System.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(doctor);
+            return View(roomType);
 
         }
 
@@ -127,20 +127,20 @@ namespace Hospital_Management_System.Controllers
                 return NotFound();
             }
 
-            var department = await _doctorServices.GetByIdAsync(id.GetValueOrDefault());
-            if (department == null)
+            var roomType = await _roomTypeServices.GetByIdAsync(id.GetValueOrDefault());
+            if (roomType== null)
             {
                 return NotFound();
             }
 
-            return View(department);
+            return View(roomType);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _doctorServices.RemoveAsync(id);
+            await _roomTypeServices.RemoveAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
@@ -150,15 +150,14 @@ namespace Hospital_Management_System.Controllers
             {
                 return NotFound();
             }
-            var department = await _doctorServices.GetByIdAsync(id.GetValueOrDefault());
-            if (department == null)
+            var roomType = await _roomTypeServices.GetByIdAsync(id.GetValueOrDefault());
+            if (roomType == null)
             {
                 return NotFound();
             }
 
-            return View(department);
+            return View(roomType);
         }
-        
 
     }
 }

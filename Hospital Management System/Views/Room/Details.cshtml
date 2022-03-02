@@ -1,0 +1,40 @@
+﻿@model Hospital_Management_System.ViewModel.RoomsViewModel
+@{
+    ViewData["Title"] = "Details Section";
+}
+<h1>Details</h1>
+<div>
+    <h4>Room Type</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RoomName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RoomName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RoomTypeName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RoomTypeName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RoomTypeId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RoomTypeId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RoomCapacity)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RoomCapacity)
+        </dd>
+
+    </dl>
+</div>
+<div>
+    <a class="btn btn-primary mt-1" asp-action="Edit" asp-route-id="@Model?.RoomId">Edit</a> |
+    <a class="btn btn-secondary mt-1" asp-action="Index">Back to List</a>
+</div>
