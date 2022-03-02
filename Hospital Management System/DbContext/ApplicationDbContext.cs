@@ -11,5 +11,7 @@ namespace Hospital_Management_System.DbContext
                 
         }
         public DbSet<Doctor> Doctors { get; set; }
+        public DbSet<Rooms> Rooms { get; set; }
+        public DbSet<RoomType> RoomTypes { get; set; }
     }
 }

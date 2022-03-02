@@ -9,6 +9,9 @@ namespace Hospital_Management_System.Config
         public MappingProfile()
         {
             CreateMap<Doctor, DoctorViewModel>().ReverseMap();
+            CreateMap<Rooms, RoomsViewModel>().ReverseMap();
+            CreateMap<RoomType, RoomTypeViewModel>().ReverseMap();
+
         }
     }
 }
